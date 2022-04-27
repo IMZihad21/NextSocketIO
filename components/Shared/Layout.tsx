@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "next/head";
 import { Box, Container } from "@mui/material";
 import Footer from "@components/Shared/Footer";
 import Navbar from "@components/Shared/Navbar";

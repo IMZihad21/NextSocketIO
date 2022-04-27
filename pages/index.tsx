@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { NextPage } from "next";
-import { Box, Button, List, ListItem, ListItemText, TextField, Typography } from "@mui/material";
+import { Box, Button, List, ListItem, ListItemText, TextField } from "@mui/material";
 import io from "socket.io-client";
 let socket: any;
 let userId: string = `${Math.random()}`;
@@ -10,18 +10,18 @@ const Home: NextPage = () => {
   const [messages, setMessages] = React.useState<any>([]);
 
   React.useEffect(() => {
-    socketInitializer();
+    socket = io({ path: "/api/socket" })
+    socket.on('connect', () => {
+      console.log('connect')
+      socket.emit('hello')
+    })
+    socket.on("updateMessage", (msg: { msg: String, userId: Number }) => {
+      setMessages((messages: any) => [...messages, msg]);
+    });
 
     // Clean up the socket connection when the component unmountss
-    return () => socket?.disconnect();
+    return () => socket.disconnect();
   }, []);
-
-  const socketInitializer = async () => {
-    socket = io();
-    socket.on("updateMessage", (msg: { msg: String, userId: Number }) => {
-      setMessages((messages: any) => [...messages, msg])
-    });
-  };
 
   const onSubmit = (e: any) => {
     e.preventDefault();

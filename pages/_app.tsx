@@ -20,7 +20,7 @@ export default function MyApp(props: MyAppProps) {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>Next.js App with TypeScript and Material-UI</title>
+        <title>Simple Chat App with Socket.IO</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <meta
           name="description"
