@@ -10,6 +10,7 @@ const Home: NextPage = () => {
     const { roomName } = router.query;
     const [input, setInput] = React.useState("");
     const [messages, setMessages] = React.useState<any>([]);
+    const messagesEndRef = React.useRef<null | HTMLDivElement>(null)
 
     React.useEffect(() => {
         if (!roomName) {
@@ -29,6 +30,10 @@ const Home: NextPage = () => {
         return () => socket.disconnect();
     }, [roomName]);
 
+    React.useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }, [messages]);
+
     const onSubmit = (e: any) => {
         e.preventDefault();
         setMessages((messages: any) => [...messages, { msg: input, userId: socket?.id }]);
@@ -36,6 +41,7 @@ const Home: NextPage = () => {
             msg: input,
             userId: socket?.id,
         });
+        setInput("");
     };
 
     return (
@@ -71,6 +77,7 @@ const Home: NextPage = () => {
                         </ListItem>
                     ))
                 }
+                <Box ref={messagesEndRef} />
             </List>
             <Box sx={{
                 display: "flex",
@@ -87,6 +94,7 @@ const Home: NextPage = () => {
                     onChange={e => setInput(e.target.value)}
                 />
                 <Button
+                    disabled={!input}
                     variant="contained"
                     color="primary"
                     onClick={onSubmit}

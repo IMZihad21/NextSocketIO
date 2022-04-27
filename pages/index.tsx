@@ -5,11 +5,13 @@ import io from "socket.io-client";
 import { useRouter } from "next/router";
 let socket: any;
 
+
 const Home: NextPage = () => {
   const router = useRouter();
   const [input, setInput] = React.useState("");
   const [roomName, setRoomName] = React.useState("");
   const [messages, setMessages] = React.useState<any>([]);
+  const messagesEndRef = React.useRef<null | HTMLDivElement>(null)
 
   React.useEffect(() => {
     socket = io({ path: "/api/socket" })
@@ -22,6 +24,10 @@ const Home: NextPage = () => {
     return () => socket.disconnect();
   }, []);
 
+  React.useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages]);
+
   const onSubmit = (e: any) => {
     e.preventDefault();
     setMessages((messages: any) => [...messages, { msg: input, userId: socket?.id }]);
@@ -29,6 +35,7 @@ const Home: NextPage = () => {
       msg: input,
       userId: socket?.id,
     });
+    setInput("");
   };
 
   const handleNewRoom = (e: any) => {
@@ -47,7 +54,6 @@ const Home: NextPage = () => {
         overflowY: "auto",
         p: 1,
       }}>
-
         {
           messages.map((msg: any, index: any) => (
             <ListItem
@@ -63,6 +69,7 @@ const Home: NextPage = () => {
             </ListItem>
           ))
         }
+        <Box ref={messagesEndRef} />
       </List>
       <Box sx={{
         display: "flex",
@@ -79,6 +86,7 @@ const Home: NextPage = () => {
           onChange={e => setInput(e.target.value)}
         />
         <Button
+          disabled={!input}
           variant="contained"
           color="primary"
           onClick={onSubmit}
@@ -105,6 +113,7 @@ const Home: NextPage = () => {
           onChange={e => setRoomName(e.target.value)}
         />
         <Button
+          disabled={!roomName}
           variant="contained"
           color="primary"
           onClick={handleNewRoom}
