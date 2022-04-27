@@ -2,19 +2,18 @@ import * as React from "react";
 import type { NextPage } from "next";
 import { Box, Button, List, ListItem, ListItemText, TextField } from "@mui/material";
 import io from "socket.io-client";
+import { useRouter } from "next/router";
 let socket: any;
-let userId: string = `${Math.random()}`;
 
 const Home: NextPage = () => {
+  const router = useRouter();
   const [input, setInput] = React.useState("");
+  const [roomName, setRoomName] = React.useState("");
   const [messages, setMessages] = React.useState<any>([]);
 
   React.useEffect(() => {
     socket = io({ path: "/api/socket" })
-    socket.on('connect', () => {
-      console.log('connect')
-      socket.emit('hello')
-    })
+
     socket.on("updateMessage", (msg: { msg: String, userId: Number }) => {
       setMessages((messages: any) => [...messages, msg]);
     });
@@ -25,11 +24,16 @@ const Home: NextPage = () => {
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    setMessages((messages: any) => [...messages, { msg: input, userId }]);
+    setMessages((messages: any) => [...messages, { msg: input, userId: socket?.id }]);
     socket.emit("message", {
       msg: input,
-      userId: userId,
+      userId: socket?.id,
     });
+  };
+
+  const handleNewRoom = (e: any) => {
+    e.preventDefault();
+    router.push(`/room/${roomName}`);
   };
 
   return (
@@ -50,9 +54,9 @@ const Home: NextPage = () => {
               key={index}>
               <ListItemText
                 primary={msg.msg}
-                secondary={msg.userId === userId ? "You" : "Other"}
+                secondary={msg.userId === socket?.id ? "You" : "Other"}
                 sx={{
-                  textAlign: msg.userId === userId ? "end !important" : "start !important",
+                  textAlign: msg.userId === socket?.id ? "end !important" : "start !important",
                   px: 5
                 }}
               />
@@ -64,8 +68,10 @@ const Home: NextPage = () => {
         display: "flex",
         alignItems: "center",
         gap: 2,
+        my: 2
       }}>
         <TextField
+          label="Message"
           sx={{
             flexGrow: 1
           }}
@@ -82,6 +88,32 @@ const Home: NextPage = () => {
           }}
         >
           Submit
+        </Button>
+      </Box>
+      <Box sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
+        py: 1
+      }}>
+        <TextField
+          label="Room Name"
+          sx={{
+            flexGrow: 1
+          }}
+          value={roomName}
+          onChange={e => setRoomName(e.target.value)}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleNewRoom}
+          sx={{
+            py: 2,
+            px: 5
+          }}
+        >
+          Create Custom Room
         </Button>
       </Box>
     </Box >

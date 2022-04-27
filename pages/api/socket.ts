@@ -26,16 +26,29 @@ export default function handler(
 
     io.on("connection", (socket) => {
       console.log(`*Client connected: ${socket.id}`);
-      socket.broadcast.emit("a user connected");
+      const { roomName } = socket.handshake.query;
+      if (roomName) {
+        socket.join(roomName);
+        console.log(`*Client joined room: ${roomName}`);
 
-      socket.on("message", (msg) => {
-        socket.broadcast.emit("updateMessage", msg);
-      });
+        socket.on("message", (msg) => {
+          socket.to(roomName).emit("updateMessage", msg);
+        });
 
-      socket.on("disconnect", (reason) => {
-        console.log(`*Client disconnected: ${reason}`);
-        socket.broadcast.emit("a user disconnected");
-      });
+        socket.on("disconnect", (reason) => {
+          console.log(`*Client disconnected: ${reason}`);
+          socket.to(roomName).emit("a user disconnected");
+        });
+      } else {
+        socket.on("message", (msg) => {
+          socket.broadcast.emit("updateMessage", msg);
+        });
+
+        socket.on("disconnect", (reason) => {
+          console.log(`*Client disconnected: ${reason}`);
+          socket.broadcast.emit("a user disconnected");
+        });
+      }
     });
 
     res.socket.server.io = io;
