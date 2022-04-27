@@ -15,10 +15,16 @@ export default function handler(
     const io = new Server(res.socket.server);
 
     io.on("connection", (socket: Socket) => {
-      console.log("Connected socket.io");
+      console.log(`*Client connected: ${socket.id}`);
       socket.broadcast.emit("a user connected");
-      socket.on("input-change", (msg) => {
-        socket.broadcast.emit("update-input", msg);
+
+      socket.on("message", (msg) => {
+        socket.broadcast.emit("updateMessage", msg);
+      });
+
+      socket.on("disconnect", (reason) => {
+        console.log(`*Client disconnected: ${reason}`);
+        socket.broadcast.emit("a user disconnected");
       });
     });
 
