@@ -1,0 +1,42 @@
+name: Create a production build to deploy
+
+on:
+  push:
+    branches: [main]
+
+env:
+  TZ: Asia/Dhaka
+
+jobs:
+  BuildandPush:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup build branch
+        run: |
+          git config --global user.name 'Mofajjal Rasul'
+          git config --global user.email 'imzihad@gmail.com'
+          git switch production
+          git merge origin/main
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          cache: "yarn"
+
+      - name: Install NPM packages
+        run: yarn install
+
+      - name: Build project
+        run: yarn run build
+
+      - name: Deploy to Build branch
+        run: |
+          git add .next -f
+          git commit -asm "Build of - $(date '+%Y-%m-%d %H:%M')"
+          git push origin production --force
