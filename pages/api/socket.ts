@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Server as IO } from "socket.io";
 import { Server } from "http";
+import { isProd } from "@configs/vairables";
 
 interface ExtendedNextApiResponse extends NextApiResponse {
   socket: any;
@@ -21,7 +22,7 @@ export default function handler(
     console.log("*First use, starting socket.io");
     const httpServer = res.socket.server as unknown as Server;
     const io = new IO(httpServer, {
-      path: "/api/socket",
+      path: isProd ? "/socketio/api/socket" : "/api/socket",
     });
 
     io.on("connection", (socket) => {

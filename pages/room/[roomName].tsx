@@ -3,13 +3,14 @@ import type { NextPage } from "next";
 import { Box, Button, List, ListItem, ListItemText, TextField, Typography } from "@mui/material";
 import io from "socket.io-client";
 import { useRouter } from 'next/router'
+import { isProd } from "@configs/vairables";
 let socket: any;
 
 const Home: NextPage = () => {
     const router = useRouter()
     const { roomName } = router.query;
-    const [input, setInput] = React.useState("");
-    const [messages, setMessages] = React.useState<any>([]);
+    const [ input, setInput ] = React.useState("");
+    const [ messages, setMessages ] = React.useState<any>([]);
     const messagesEndRef = React.useRef<null | HTMLDivElement>(null)
 
     React.useEffect(() => {
@@ -17,26 +18,26 @@ const Home: NextPage = () => {
             return;
         }
         socket = io({
-            path: "/api/socket",
+            path: isProd ? "/socketio/api/socket" : "/api/socket",
             query: {
                 roomName
             }
         })
         socket.on("updateMessage", (msg: { msg: String, userId: Number }) => {
-            setMessages((messages: any) => [...messages, msg]);
+            setMessages((messages: any) => [ ...messages, msg ]);
         });
 
         // Clean up the socket connection when the component unmountss
         return () => socket.disconnect();
-    }, [roomName]);
+    }, [ roomName ]);
 
     React.useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-    }, [messages]);
+    }, [ messages ]);
 
     const onSubmit = (e: any) => {
         e.preventDefault();
-        setMessages((messages: any) => [...messages, { msg: input, userId: socket?.id }]);
+        setMessages((messages: any) => [ ...messages, { msg: input, userId: socket?.id } ]);
         socket.emit("message", {
             msg: input,
             userId: socket?.id,
