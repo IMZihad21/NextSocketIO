@@ -26,7 +26,7 @@ export default function MyApp(props: MyAppProps) {
           name="description"
           content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisi vitae consectetur interdum, nisl nisi aliquam eros, eget egestas nisl nisi eget."
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href={process.env.NODE_ENV === 'production' ? "/socketio/favicon.ico" : "/favicon.ico"} />
       </Head>
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
