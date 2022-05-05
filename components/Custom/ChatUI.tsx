@@ -80,7 +80,7 @@ const ChatUI: React.FC = () => {
                                     <Typography variant="subtitle2" sx={{
                                         fontSize: "10px"
                                     }}>
-                                        {msg?.sender}
+                                        {msg?.userId !== socket?.id ? msg?.sender : "You"}
                                     </Typography>
                                 }
                                 sx={{
@@ -88,8 +88,6 @@ const ChatUI: React.FC = () => {
                                     px: { md: 5 }
                                 }}
                             >
-
-
                             </ListItemText>
                         </ListItem>
                     ))
