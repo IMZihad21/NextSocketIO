@@ -14,12 +14,9 @@ const ChatUI: React.FC = () => {
     const messagesEndRef = React.useRef<null | HTMLDivElement>(null)
 
     React.useEffect(() => {
-        socket = io({
-            path: isProd ? "/socketio/api/socket" : "/api/socket",
-            query: {
-                roomName,
-            }
-        })
+        roomName ?
+            socket = io({ path: isProd ? "/socketio/api/socket" : "/api/socket", query: { roomName } }) :
+            socket = io({ path: isProd ? "/socketio/api/socket" : "/api/socket" });
 
         socket.on("updateMessage", (msg: { msg: String, userId: Number }) => {
             setMessages((messages: any) => [...messages, msg]);
