@@ -19,6 +19,7 @@ const Home: NextPage = () => {
       <ChatUI />
       <Box sx={{
         display: "flex",
+        flexDirection: { xs: "column", md: "row" },
         alignItems: "center",
         gap: 2,
       }}>
@@ -26,6 +27,7 @@ const Home: NextPage = () => {
           label="Room Name"
           sx={{
             flexGrow: 1,
+            width: { xs: 1, md: "auto" }
           }}
           size="small"
           value={roomName}
@@ -40,7 +42,8 @@ const Home: NextPage = () => {
             py: 2,
             px: { md: 5 },
             height: "40px",
-            whiteSpace: "nowrap"
+            whiteSpace: "nowrap",
+            width: { xs: 1, md: "auto" }
           }}
         >
           Create Custom Room

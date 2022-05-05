@@ -46,7 +46,7 @@ const ChatUI: React.FC = () => {
     };
 
     const submitOnKeyPress = (e: any) => {
-        if (e.which === 13) {
+        if (e.key === 'Enter') {
             onSubmit(e);
         }
     }
