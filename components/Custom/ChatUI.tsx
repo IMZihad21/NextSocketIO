@@ -22,6 +22,14 @@ const ChatUI: React.FC = () => {
             setMessages((messages: any) => [...messages, msg]);
         });
 
+        socket.on("newMember", (msg: { msg: String }) => {
+            setMessages((messages: any) => [...messages, msg]);
+        })
+
+        socket.on("exitMember", (msg: { msg: String }) => {
+            setMessages((messages: any) => [...messages, msg]);
+        })
+
         // Clean up the socket connection when the component unmountss
         return () => socket.disconnect();
     }, [roomName]);
@@ -62,31 +70,51 @@ const ChatUI: React.FC = () => {
             }}>
                 {
                     messages.map((msg: any, index: any) => (
-                        <ListItem
-                            key={index}>
-                            <ListItemText
-                                primary={
-                                    <Typography sx={{
-                                        fontSize: "16px",
-                                        fontWeight: "bold"
-                                    }}>
-                                        {msg?.msg}
-                                    </Typography>
-                                }
-                                secondary={
-                                    <Typography variant="subtitle2" sx={{
-                                        fontSize: "10px"
-                                    }}>
-                                        {msg?.userId !== socket?.id ? msg?.sender : "You"}
-                                    </Typography>
-                                }
-                                sx={{
-                                    textAlign: msg?.userId === socket?.id ? "end !important" : "start !important",
-                                    px: { md: 5 }
-                                }}
-                            >
-                            </ListItemText>
-                        </ListItem>
+                        msg.userId ?
+                            <ListItem
+                                key={index}>
+                                <ListItemText
+                                    primary={
+                                        <Typography sx={{
+                                            fontSize: "16px",
+                                            fontWeight: "bold"
+                                        }}>
+                                            {msg?.msg}
+                                        </Typography>
+                                    }
+                                    secondary={
+                                        <Typography variant="subtitle2" sx={{
+                                            fontSize: "10px"
+                                        }}>
+                                            {msg?.userId !== socket?.id ? msg?.sender : "You"}
+                                        </Typography>
+                                    }
+                                    sx={{
+                                        textAlign: msg?.userId === socket?.id ? "end !important" : "start !important",
+                                        px: { md: 5 }
+                                    }}
+                                >
+                                </ListItemText>
+                            </ListItem> :
+                            <ListItem
+                                key={index}>
+                                <ListItemText
+                                    primary={
+                                        <Typography sx={{
+                                            fontSize: "10px",
+                                            fontWeight: "bold",
+                                            bgcolor: "#70707040",
+                                            display: "inline-block",
+                                            borderRadius: "10px",
+                                            p: 1
+                                        }}>
+                                            {msg?.msg}
+                                        </Typography>
+                                    }
+                                    sx={{ textAlign: "center !important" }}
+                                >
+                                </ListItemText>
+                            </ListItem>
                     ))
                 }
                 <Box ref={messagesEndRef} />
