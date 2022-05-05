@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { NextPage } from "next";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useRouter } from 'next/router'
 import ChatUI from "@components/Custom/ChatUI";
 
@@ -9,11 +9,22 @@ const Home: NextPage = () => {
     const { roomName } = router.query;
     return (
         <React.Fragment>
-            <Typography variant="h4" sx={{
+            <Typography sx={{
                 p: 1,
+                fontSize: "20px",
+                fontWeight: "100",
                 textAlign: "center",
             }}>
-                Connected to room: {roomName}
+                Room Name:
+                <Box
+                    component='span'
+                    sx={{
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        px: 1,
+                    }}>
+                    {roomName}
+                </Box>
             </Typography>
             <ChatUI />
         </React.Fragment>
