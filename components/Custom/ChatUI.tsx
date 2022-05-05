@@ -117,7 +117,7 @@ const ChatUI: React.FC = () => {
                     onClick={onSubmit}
                     sx={{
                         py: 2,
-                        px: 5,
+                        px: { md: 5 },
                         height: "40px"
                     }}
                 >
