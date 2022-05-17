@@ -20,7 +20,7 @@ export default function handler(
 ) {
   if (!res.socket.server.io) {
     console.log("*First use, starting socket.io");
-    const httpServer = res.socket.server as unknown as Server;
+    const httpServer = res.socket.server as Server;
     const io = new IO(httpServer, {
       path: isProd ? "/socketio/api/socket" : "/api/socket",
     });
@@ -35,8 +35,9 @@ export default function handler(
           .emit("newMember", { msg: `${socket.id} joined the chat!` });
         console.log(`*Client joined room: ${roomName}`);
 
-        socket.on("message", (msg) => {
+        socket.on("message", (msg, callback) => {
           socket.to(roomName).emit("updateMessage", msg);
+          callback(msg);
         });
 
         socket.on("disconnect", (reason) => {
@@ -50,8 +51,9 @@ export default function handler(
           msg: `${socket.id} joined the chat!`,
         });
 
-        socket.on("message", (msg) => {
+        socket.on("message", (msg, callback) => {
           socket.broadcast.emit("updateMessage", msg);
+          callback(msg);
         });
 
         socket.on("disconnect", (reason) => {
