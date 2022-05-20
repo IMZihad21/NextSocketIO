@@ -87,7 +87,7 @@ const ChatUI: React.FC = () => {
         }}
       >
         {messages.map((msg: any, index: any) =>
-          msg.userId ? (
+          msg.sender !== "server" ? (
             <ListItem key={index}>
               <ListItemText
                 primary={
@@ -128,7 +128,7 @@ const ChatUI: React.FC = () => {
                       fontSize: "10px",
                       fontWeight: "bold",
                       bgcolor: "#70707040",
-                      display: "inline-block",
+                      display: "block",
                       borderRadius: "10px",
                       p: 1,
                     }}

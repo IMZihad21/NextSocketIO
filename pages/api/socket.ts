@@ -35,7 +35,7 @@ export default function handler(
         socket.join(roomName);
         socket
           .to(roomName)
-          .emit("newMember", { msg: `${socket.id} joined the chat!` });
+          .emit("newMember", { msg: `${socket.id} joined the chat!`, sender: "server" });
         console.log(`*Client joined room: ${roomName}`);
 
         socket.on("message", (msg, callback) => {
@@ -47,11 +47,12 @@ export default function handler(
           console.log(`*Client disconnected: ${reason}`);
           socket
             .to(roomName)
-            .emit("exitMember", { msg: `${socket.id} left the chat!` });
+            .emit("exitMember", { msg: `${socket.id} left the chat!`, sender: "server" });
         });
       } else {
         socket.broadcast.emit("newMember", {
           msg: `${socket.id} joined the chat!`,
+          sender: "server"
         });
 
         socket.on("message", (msg, callback) => {
@@ -62,7 +63,8 @@ export default function handler(
         socket.on("disconnect", (reason) => {
           console.log(`*Client disconnected: ${reason}`);
           socket.broadcast.emit("exitMember", {
-            msg: `${socket.id} left the chat!`,
+            msg: `${socket.id} left the chat!`, 
+            sender: "server"
           });
         });
       }
