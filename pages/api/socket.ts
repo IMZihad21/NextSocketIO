@@ -23,6 +23,9 @@ export default function handler(
     const httpServer = res.socket.server as Server;
     const io = new IO(httpServer, {
       path: isProd ? "/socketio/api/socket" : "/api/socket",
+      cors: {
+        origin: "*",
+      },
     });
 
     io.on("connection", (socket) => {
