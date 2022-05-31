@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Box,
   Button,
@@ -8,9 +7,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import io from "socket.io-client";
 import { useRouter } from "next/router";
-import { isProd } from "@configs/vairables";
+import * as React from "react";
+import io from "socket.io-client";
 let socket: any;
 
 const ChatUI: React.FC = () => {
@@ -22,13 +21,10 @@ const ChatUI: React.FC = () => {
 
   React.useEffect(() => {
     roomName
-      ? (socket = io({
-          path: isProd ? "/socketio/api/socket" : "/api/socket",
+      ? (socket = io("https://socketwithnext.herokuapp.com/", {
           query: { roomName },
         }))
-      : (socket = io({
-          path: isProd ? "/socketio/api/socket" : "/api/socket",
-        }));
+      : (socket = io("https://socketwithnext.herokuapp.com/"));
 
     socket.on("updateMessage", (msg: { msg: String; userId: Number }) => {
       setMessages((messages: any) => [...messages, msg]);
