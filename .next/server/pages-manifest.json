@@ -1,8 +1,6 @@
 {
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
-  "/api": "pages/api.js",
-  "/api/socket": "pages/api/socket.js",
   "/": "pages/index.html",
   "/room/[roomName]": "pages/room/[roomName].html",
   "/_error": "pages/_error.js",

@@ -12,17 +12,15 @@ __webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 /* harmony export */ });
 /* harmony import */ var _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(193);
 /* harmony import */ var _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(689);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(692);
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_mui_material__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(612);
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(853);
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _configs_vairables__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(639);
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([socket_io_client__WEBPACK_IMPORTED_MODULE_3__]);
-socket_io_client__WEBPACK_IMPORTED_MODULE_3__ = (__webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__)[0];
-
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(692);
+/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_mui_material__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(853);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(689);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(612);
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([socket_io_client__WEBPACK_IMPORTED_MODULE_4__]);
+socket_io_client__WEBPACK_IMPORTED_MODULE_4__ = (__webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__)[0];
 
 
 
@@ -30,20 +28,17 @@ socket_io_client__WEBPACK_IMPORTED_MODULE_3__ = (__webpack_async_dependencies__.
 
 let socket;
 const ChatUI = ()=>{
-    const router = (0,next_router__WEBPACK_IMPORTED_MODULE_4__.useRouter)();
+    const router = (0,next_router__WEBPACK_IMPORTED_MODULE_2__.useRouter)();
     const { roomName  } = router.query;
-    const [input, setInput] = react__WEBPACK_IMPORTED_MODULE_1__.useState("");
-    const [messages1, setMessages] = react__WEBPACK_IMPORTED_MODULE_1__.useState([]);
-    const messagesEndRef = react__WEBPACK_IMPORTED_MODULE_1__.useRef(null);
-    react__WEBPACK_IMPORTED_MODULE_1__.useEffect(()=>{
-        roomName ? socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_3__["default"])({
-            path: _configs_vairables__WEBPACK_IMPORTED_MODULE_5__/* .isProd */ .B ? "/socketio/api/socket" : "/api/socket",
+    const [input, setInput] = react__WEBPACK_IMPORTED_MODULE_3__.useState("");
+    const [messages1, setMessages] = react__WEBPACK_IMPORTED_MODULE_3__.useState([]);
+    const messagesEndRef = react__WEBPACK_IMPORTED_MODULE_3__.useRef(null);
+    react__WEBPACK_IMPORTED_MODULE_3__.useEffect(()=>{
+        roomName ? socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_4__["default"])("https://socketwithnext.herokuapp.com/", {
             query: {
                 roomName
             }
-        }) : socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_3__["default"])({
-            path: _configs_vairables__WEBPACK_IMPORTED_MODULE_5__/* .isProd */ .B ? "/socketio/api/socket" : "/api/socket"
-        });
+        }) : socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_4__["default"])("https://socketwithnext.herokuapp.com/");
         socket.on("updateMessage", (msg)=>{
             setMessages((messages)=>[
                     ...messages,
@@ -71,7 +66,7 @@ const ChatUI = ()=>{
     }, [
         roomName
     ]);
-    react__WEBPACK_IMPORTED_MODULE_1__.useEffect(()=>{
+    react__WEBPACK_IMPORTED_MODULE_3__.useEffect(()=>{
         var ref;
         (ref = messagesEndRef.current) === null || ref === void 0 ? void 0 : ref.scrollIntoView({
             behavior: "smooth"
@@ -101,13 +96,13 @@ const ChatUI = ()=>{
             onSubmit(e);
         }
     };
-    return /*#__PURE__*/ (0,_emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_mui_material__WEBPACK_IMPORTED_MODULE_2__.Box, {
+    return /*#__PURE__*/ (0,_emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_mui_material__WEBPACK_IMPORTED_MODULE_1__.Box, {
         sx: {
             display: "flex",
             flexDirection: "column"
         },
         children: [
-            /*#__PURE__*/ (0,_emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_mui_material__WEBPACK_IMPORTED_MODULE_2__.List, {
+            /*#__PURE__*/ (0,_emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_mui_material__WEBPACK_IMPORTED_MODULE_1__.List, {
                 sx: {
                     border: "1px solid black",
                     height: "60vh",
@@ -117,16 +112,16 @@ const ChatUI = ()=>{
                 },
                 children: [
                     messages1.map((msg, index)=>{
-                        return msg.sender !== "server" ? /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.ListItem, {
-                            children: /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.ListItemText, {
-                                primary: /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+                        return msg.sender !== "server" ? /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.ListItem, {
+                            children: /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.ListItemText, {
+                                primary: /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.Typography, {
                                     sx: {
                                         fontSize: "16px",
                                         fontWeight: "bold"
                                     },
                                     children: msg === null || msg === void 0 ? void 0 : msg.msg
                                 }),
-                                secondary: /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+                                secondary: /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.Typography, {
                                     variant: "subtitle2",
                                     sx: {
                                         fontSize: "10px"
@@ -140,9 +135,9 @@ const ChatUI = ()=>{
                                     }
                                 }
                             })
-                        }, index) : /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.ListItem, {
-                            children: /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.ListItemText, {
-                                primary: /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.Typography, {
+                        }, index) : /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.ListItem, {
+                            children: /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.ListItemText, {
+                                primary: /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.Typography, {
                                     sx: {
                                         fontSize: "10px",
                                         fontWeight: "bold",
@@ -159,12 +154,12 @@ const ChatUI = ()=>{
                             })
                         }, index);
                     }),
-                    /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.Box, {
+                    /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.Box, {
                         ref: messagesEndRef
                     })
                 ]
             }),
-            /*#__PURE__*/ (0,_emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_mui_material__WEBPACK_IMPORTED_MODULE_2__.Box, {
+            /*#__PURE__*/ (0,_emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_mui_material__WEBPACK_IMPORTED_MODULE_1__.Box, {
                 sx: {
                     display: "flex",
                     alignItems: "center",
@@ -172,7 +167,7 @@ const ChatUI = ()=>{
                     my: 2
                 },
                 children: [
-                    /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.TextField, {
+                    /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.TextField, {
                         label: "Message",
                         sx: {
                             flexGrow: 1
@@ -182,7 +177,7 @@ const ChatUI = ()=>{
                         onKeyPress: submitOnKeyPress,
                         onChange: (e)=>setInput(e.target.value)
                     }),
-                    /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_2__.Button, {
+                    /*#__PURE__*/ _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_1__.Button, {
                         disabled: !input,
                         variant: "contained",
                         color: "primary",
@@ -205,17 +200,6 @@ const ChatUI = ()=>{
 
 __webpack_async_result__();
 } catch(e) { __webpack_async_result__(e); } });
-
-/***/ }),
-
-/***/ 639:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "B": () => (/* binding */ isProd)
-/* harmony export */ });
-const isProd = "production" === "production";
-
 
 /***/ })
 
