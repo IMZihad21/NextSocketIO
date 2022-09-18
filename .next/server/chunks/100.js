@@ -34,11 +34,11 @@ const ChatUI = ()=>{
     const [messages1, setMessages] = react__WEBPACK_IMPORTED_MODULE_3__.useState([]);
     const messagesEndRef = react__WEBPACK_IMPORTED_MODULE_3__.useRef(null);
     react__WEBPACK_IMPORTED_MODULE_3__.useEffect(()=>{
-        roomName ? socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_4__["default"])("https://socketwithnext.herokuapp.com/", {
+        roomName ? socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_4__["default"])("https://socketioserver-wmz2yik67q-uc.a.run.app/", {
             query: {
                 roomName
             }
-        }) : socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_4__["default"])("https://socketwithnext.herokuapp.com/");
+        }) : socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_4__["default"])("https://socketioserver-wmz2yik67q-uc.a.run.app/");
         socket.on("updateMessage", (msg)=>{
             setMessages((messages)=>[
                     ...messages,
